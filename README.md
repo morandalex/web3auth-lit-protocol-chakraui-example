@@ -8,6 +8,7 @@ If the condition getFlag is true then the user can decrypt.
 
 Check the working app ( injected wallet advised ) here:
 https://web3auth-lit-protocol-chakraui-example.vercel.app/
+![Peek 30-05-2022 10-26](https://user-images.githubusercontent.com/9484568/170951717-cafe9aaf-a1dd-47cf-963d-30d2066d3798.gif)
 
 ## A sauce with 
 
