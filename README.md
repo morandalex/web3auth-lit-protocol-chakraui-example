@@ -1,119 +1,93 @@
-# scaffold-moonshot-starter
+# Encrypt strings with Lit protocol 
 
-Typescript x NextJS x Chakra-UI scaffold-eth production ready starter kit.
+A user write a string that he wants to encrypt.
 
-## Tech stack overview
+Then the user get an encrypted string and an encrypted symmetric key.
 
-We are using TypeScript with Next.js & Chakra UI on the front-end.
+If the condition getFlag is true then the user can decrypt.
 
-### 📁 Folder structure
+Check the working app ( injected wallet advised ) here:
+https://web3auth-lit-protocol-chakraui-example.vercel.app/
 
-```
-.
-├── packages # Monorepo using yarn workspaces & lerna
-│ ├── web # Landing page using NextJS, TypeScript, Chakra-UI
-│ ├── dapp # Web3, decentralized app using NextJS, TypeScript, Chakra-UI and ethers.js
-│ ├── ui # Theme/design system shared accross web & dapp folders
-│ ├── hardhat # Your contracts, using Hardhat with Typechain and ethers v5
-│ └── subgraph # A subgraph that gets generated on contract deploys
-└── ... config ...
-```
+## A sauce with 
 
-## 🏄‍♂️ Quick Start
+* A true/false solidity contract condition deployed on mumbai
+* Lit protocol sdk to encrypt and decrypt a string defined by the connected user
+* Web3auth to manage the wallet 
+* Chakraui to scaffold the frontend
 
-### Prerequisites
+## Install dependencies
 
-- [Node](https://nodejs.org/en/download/)
-- [Yarn](https://classic.yarnpkg.com/en/docs/install/)
-- [Git](https://git-scm.com/downloads)
-- Account and API key for [WEB3.storage](https://web3.storage/) (Optional, it provides decentralized media storage)
+Create .env variables where needed, then install all dependencies
 
-### Setup env
+    yarn bootstrap 
 
-In each package individually, create your `.env` files by copying the `.example.env` and fill in the empty values.
+### Getting started with hardhat 
 
-```sh
-$ cd packages/[dapp, hardhat and schemas]
-$ cp .example.env .env
-```
+Start a local hardhat development chain:
 
-### Create API Key
+    yarn hhChain 
 
-Go to https://web3.storage and set the value of WEB3STORAGE_TOKEN with your web3.storage API key.
+Compile the contract:
 
-### Clone the starter
+    yarn hhCompile 
 
-```sh
-$ git clone https://github.com/moonshotcollective/scaffold-moonshot-starter.git
-```
+Deploy on hardhat_contract.json the abi and contract address of localhost:
 
-### install dependencies
+    yarn hhDeploy --network localhost 
 
-```sh
-$ cd scaffold-moonshot-starter && yarn install
-```
 
-### 👷‍ Build your contracts!
+If you want to deploy on polygon you should config hardhat.config.json putting your private key, and then deploy:
+ 
+    yarn hhDeploy --network mumbai 
 
-run hardhat locally, get some faucet and 🛰 deploy your contract
-Create a `mnemonic.secret` file or set one of your dev private key as the DEPLOYER_PRIVATE_KEY environment variables in packages/hardhat/.env
+or
 
-```sh
-$ cd packages/hardhat
-$ yarn chain
-$ yarn faucet <YOUR_DEV_ADDRESS>
+    yarn hhDeploy --network mumbai 
 
-Deploying on hardhat localhost
-$ yarn deploy --network localhost
 
-Deploying on mumbai
-$ yarn deploy --network mumbai
+### Getting started with chakraui frontend
 
-Deploying on an other testnet (make sure to edit the hardhat.config.js first)
-$ yarn deploy --network mytestnet
-```
+Go to web3auth dashboard , create a project id and paste it on *web3auth.tsx* file.
 
-#### Testnet Faucets
+Then whitelist localhost:3000 or your domain.
 
-- [Kovan](https://faucets.chain.link/kovan)
-- [Mumbai](https://faucet.polygon.technology/)
-- [Rinkeby](https://faucet.rinkeby.io/)
-- [BSC](https://testnet.binance.org/faucet-smart)
+Then start the dapp working on localhost:3000 :
 
-### Dev Preview
+    yarn dpDev 
 
-**Build the ui theme:**
+If you deployed on more chains , config the *chainConfig.ts* accordingly.
 
-```bash
-$ cd packages/ui
-$ yarn build
-```
+    import { CHAIN_NAMESPACES, CustomChainConfig } from "@web3auth/base";
+    import { utils } from 'ethers';
+    export const CHAIN_CONFIG = {
+    /*polygon: {
+        chainNamespace: CHAIN_NAMESPACES.EIP155,
+        rpcTarget: "https://polygon-rpc.com",
+        blockExplorer: "https://polygonscan.com/",
+        chainId: "0x89",
+        displayName: "Polygon Mainnet",
+        ticker: "matic",
+        tickerName: "Matic",
+    } as CustomChainConfig,*/
+    mumbai: {
+        chainNamespace: CHAIN_NAMESPACES.EIP155,
+        rpcTarget: "https://polygon-mumbai.g.alchemy.com/v2/OVjPtuRy5EMyS13W7iTVcaH2tVZkmwV2",
+        blockExplorer: "https://mumbai.polygonscan.com/",
+        chainId: utils.hexValue(80001),
+        displayName: "Mumbai",
+        ticker: "matic",
+        tickerName: "Matic",
+    } as CustomChainConfig,
+    /*hardhat: {
+        chainNamespace: CHAIN_NAMESPACES.EIP155,
+        rpcTarget: "http://127.0.0.1:8545/",
+        blockExplorer: "",
+        chainId: utils.hexValue(31337),
+        displayName: "Hardhat",
+        ticker: "eth",
+        tickerName: "Eth",
+    } as CustomChainConfig,*/
+    } as const;
+    export type CHAIN_CONFIG_TYPE = keyof typeof CHAIN_CONFIG;
 
-**Build in local**
-
-```bash
-$ cd packages/hardhat-ts
-$ yarn chain
-```
-
-Open a new terminal
-
-```bash
-$ yarn deploy
-```
-
-**Start the 📱 dApp:**
-
-```bash
-$ cd packages/dapp
-$ yarn dev
-```
-
-**Start the 📱 landing page:**
-
-> (Optional, doesn't need anything else to run)
-
-```sh
-$ cd packages/web
-$ yarn dev
-```
