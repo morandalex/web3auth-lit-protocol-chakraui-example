@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useWeb3Auth } from "../services/web3auth";
 import {
   HStack,
   Button,
   Box, VStack, Text,
   Input,
-  Checkbox,
-  SliderTrack
+  Checkbox
 } from '@chakra-ui/react'
-import { ethers, BigNumber } from 'ethers';
+import { ethers } from 'ethers';
 //@ts-ignore
 import LitJsSdk from 'lit-js-sdk'
 import { toString as uint8arrayToString } from "uint8arrays/to-string";
 import { fromString as uint8arrayFromString } from "uint8arrays/from-string";
 import a from '../../../../packages/hardhat-ts/hardhat_contracts.json'
 const Main = () => {
-  const { provider, login, logout, getAccounts, getBalance } = useWeb3Auth();
+  const { provider} = useWeb3Auth();
   const [cond, setCond] = useState(true)
   const [abi, setAbi] = useState({})
   const [contractAddress, setContractAddress] = useState('')
@@ -65,10 +64,7 @@ const Main = () => {
       console.log(error);
     }
   };
-  async function getNetworkNameFun() {
-    const nn = await provider?.getNetworkName()
-    return alert(nn)
-  }
+
   async function setConditionFun() {
     try {
       const p: any = await provider?.getEthersProvider()
