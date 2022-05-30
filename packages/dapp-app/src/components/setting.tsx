@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { CHAIN_CONFIG, CHAIN_CONFIG_TYPE } from "../config/chainConfig";
 import {/* WEB3AUTH_NETWORK, */WEB3AUTH_NETWORK_TYPE } from "../config/web3AuthNetwork";
@@ -11,7 +10,7 @@ interface IProps {
   setNetwork: Dispatch<SetStateAction<WEB3AUTH_NETWORK_TYPE>>;
   setChain: Dispatch<SetStateAction<CHAIN_CONFIG_TYPE>>;
 }
-const Setting = ({ setNetwork, setChain }: IProps) => {
+const Setting = ({  setChain }: IProps) => {
 
   const { login, logout} = useWeb3Auth();
   /*const networkChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
